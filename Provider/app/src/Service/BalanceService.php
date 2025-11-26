@@ -56,6 +56,7 @@ class BalanceService
 
             $this->entityManager->persist($account);
             $this->entityManager->persist($history);
+            // TODO: reset the version column at one point
             $this->entityManager->flush(); // This will throw OptimisticLockException if version mismatch
             $this->entityManager->commit();
 
