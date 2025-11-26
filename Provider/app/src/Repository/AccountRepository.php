@@ -6,6 +6,9 @@ use App\Entity\Account;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Account>
+ */
 class AccountRepository extends ServiceEntityRepository implements AccountRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
@@ -15,7 +18,10 @@ class AccountRepository extends ServiceEntityRepository implements AccountReposi
 
     public function find($id, $lockMode = null, $lockVersion = null): ?Account
     {
-        return parent::find($id, $lockMode, $lockVersion);
+        /** @var Account|null $account */
+        $account = parent::find($id, $lockMode, $lockVersion);
+
+        return $account;
     }
 
     public function save(Account $account): void

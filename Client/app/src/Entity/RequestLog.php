@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\RequestLogRepository;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: RequestLogRepository::class)]
 #[ORM\Table(name: 'request_logs')]
@@ -27,7 +26,7 @@ class RequestLog
     private bool $success;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     public function __construct(
         string $action,
@@ -37,7 +36,7 @@ class RequestLog
         $this->action = $action;
         $this->amount = $amount;
         $this->success = $success;
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -60,7 +59,7 @@ class RequestLog
         return $this->success;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }

@@ -19,8 +19,10 @@ class ProviderClient
     }
 
     /**
-     * Update balance on Provider microservice
-     * 
+     * Update balance on Provider microservice.
+     *
+     * @return array<string, mixed>
+     *
      * @throws \RuntimeException if request fails
      */
     public function updateBalance(string $amount, string $type): array
@@ -40,16 +42,13 @@ class ProviderClient
             $statusCode = $response->getStatusCode();
             $body = json_decode($response->getBody()->getContents(), true);
 
-            if ($statusCode !== 200) {
-                throw new \RuntimeException(
-                    $body['error'] ?? 'Provider request failed',
-                    $statusCode
-                );
+            if (200 !== $statusCode) {
+                throw new \RuntimeException($body['error'] ?? 'Provider request failed', $statusCode);
             }
 
             return $body;
         } catch (GuzzleException $e) {
-            throw new \RuntimeException('Failed to communicate with Provider: ' . $e->getMessage());
+            throw new \RuntimeException('Failed to communicate with Provider: '.$e->getMessage());
         }
     }
 }

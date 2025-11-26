@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\AccountRepository;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[ORM\Table(name: 'accounts')]
@@ -19,10 +18,10 @@ class Account
     private string $balance;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $updatedAt;
+    private \DateTimeImmutable $updatedAt;
 
     #[ORM\Version]
     #[ORM\Column(type: 'integer')]
@@ -31,8 +30,8 @@ class Account
     public function __construct()
     {
         $this->balance = '0.00';
-        $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -45,12 +44,12 @@ class Account
         return $this->balance;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): DateTimeImmutable
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -61,24 +60,29 @@ class Account
     }
 
     /**
-     * Apply a balance change
+     * Apply a balance change.
      *
      * @throws \DomainException if resulting balance would be negative
      */
     public function applyBalanceChange(string $changeAmount): void
     {
-        $newBalance = bcadd($this->balance, $changeAmount, 2);
+        /** @var numeric-string $balance */
+        $balance = $this->balance;
+        /** @var numeric-string $change */
+        $change = $changeAmount;
+
+        $newBalance = bcadd($balance, $change, 2);
 
         if (bccomp($newBalance, '0', 2) < 0) {
             throw new \DomainException('Balance cannot be negative');
         }
 
         $this->balance = $newBalance;
-        $this->updatedAt = new DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     /**
-     * Get balance as float for JSON serialization
+     * Get balance as float for JSON serialization.
      */
     public function getBalanceAsFloat(): float
     {

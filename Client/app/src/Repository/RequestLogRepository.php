@@ -6,6 +6,9 @@ use App\Entity\RequestLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<RequestLog>
+ */
 class RequestLogRepository extends ServiceEntityRepository implements RequestLogRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)

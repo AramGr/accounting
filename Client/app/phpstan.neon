@@ -5,6 +5,4 @@ parameters:
     excludePaths:
         - src/Kernel.php
     symfony:
-        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
-    doctrine:
-        objectManagerLoader: tests/object-manager.php
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml

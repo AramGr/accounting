@@ -17,7 +17,9 @@ class CreditService
     }
 
     /**
-     * Add credit (amount = 1)
+     * Add credit (amount = 1).
+     *
+     * @return array<string, mixed>
      */
     public function addCredit(): array
     {
@@ -42,7 +44,9 @@ class CreditService
     }
 
     /**
-     * Remove credit (amount = 1)
+     * Remove credit (amount = 1).
+     *
+     * @return array<string, mixed>
      */
     public function removeCredit(): array
     {

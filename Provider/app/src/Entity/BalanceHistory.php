@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\BalanceHistoryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: BalanceHistoryRepository::class)]
 #[ORM\Table(name: 'balance_history')]
@@ -29,19 +28,19 @@ class BalanceHistory
     private string $balanceAfter;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     public function __construct(
         Account $account,
         string $changeAmount,
         string $balanceBefore,
-        string $balanceAfter
+        string $balanceAfter,
     ) {
         $this->account = $account;
         $this->changeAmount = $changeAmount;
         $this->balanceBefore = $balanceBefore;
         $this->balanceAfter = $balanceAfter;
-        $this->createdAt = new DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -69,7 +68,7 @@ class BalanceHistory
         return $this->balanceAfter;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }

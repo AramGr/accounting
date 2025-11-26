@@ -18,7 +18,7 @@ class AccountController extends AbstractController
     public function __construct(
         private readonly BalanceService $balanceService,
         private readonly SerializerInterface $serializer,
-        private readonly ValidatorInterface $validator
+        private readonly ValidatorInterface $validator,
     ) {
     }
 
@@ -76,7 +76,7 @@ class AccountController extends AbstractController
             );
         } catch (\RuntimeException $e) {
             // Handle concurrent update (409 Conflict) or not found (404)
-            $statusCode = $e->getCode() === 409 ? Response::HTTP_CONFLICT : Response::HTTP_NOT_FOUND;
+            $statusCode = 409 === $e->getCode() ? Response::HTTP_CONFLICT : Response::HTTP_NOT_FOUND;
 
             return $this->json(
                 ['error' => $e->getMessage()],

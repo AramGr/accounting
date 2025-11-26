@@ -6,6 +6,9 @@ use App\Entity\BalanceHistory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<BalanceHistory>
+ */
 class BalanceHistoryRepository extends ServiceEntityRepository implements BalanceHistoryRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)

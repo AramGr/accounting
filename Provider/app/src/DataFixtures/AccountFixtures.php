@@ -9,7 +9,10 @@ class AccountFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $manager->getConnection()->executeStatement(
+        // Use raw SQL via EntityManager
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $manager;
+        $em->getConnection()->executeStatement(
             'INSERT INTO accounts (balance) VALUES (0.00)'
         );
 
