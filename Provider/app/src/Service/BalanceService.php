@@ -8,6 +8,7 @@ use App\Enum\BalanceOperationType;
 use App\Repository\AccountRepositoryInterface;
 use App\Repository\BalanceHistoryRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
 
 class BalanceService
 {
@@ -28,8 +29,6 @@ class BalanceService
      */
     public function updateBalance(string $amount, BalanceOperationType $type): array
     {
-        // Todo: add versioning for concurrency
-
         $this->entityManager->beginTransaction();
 
         try {
@@ -56,7 +55,7 @@ class BalanceService
 
             $this->entityManager->persist($account);
             $this->entityManager->persist($history);
-            $this->entityManager->flush();
+            $this->entityManager->flush(); // This will throw OptimisticLockException if version mismatch
             $this->entityManager->commit();
 
             return [
@@ -64,7 +63,15 @@ class BalanceService
                 'type' => $type->value,
                 'amount' => (float) $amount,
                 'previous_balance' => (float) $balanceBefore,
+                'version' => $account->getVersion(),
             ];
+        } catch (OptimisticLockException $e) {
+            $this->entityManager->rollback();
+            throw new \RuntimeException(
+                'Concurrent update detected. The balance was modified by another request. Please retry.',
+                409,
+                $e
+            );
         } catch (\Throwable $e) {
             $this->entityManager->rollback();
             throw $e;

@@ -75,9 +75,12 @@ class AccountController extends AbstractController
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
         } catch (\RuntimeException $e) {
+            // Handle concurrent update (409 Conflict) or not found (404)
+            $statusCode = $e->getCode() === 409 ? Response::HTTP_CONFLICT : Response::HTTP_NOT_FOUND;
+
             return $this->json(
                 ['error' => $e->getMessage()],
-                Response::HTTP_NOT_FOUND
+                $statusCode
             );
         } catch (\Exception $e) {
             return $this->json(
