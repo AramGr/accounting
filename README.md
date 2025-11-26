@@ -144,6 +144,34 @@ docker exec provider-test-php bin/phpunit
 docker exec client-test-php bin/phpunit
 ```
 
+### Code Quality
+
+#### PHPStan (Static Analysis)
+
+```bash
+# Provider
+docker exec provider-test-php vendor/bin/phpstan analyse
+
+# Client
+docker exec client-test-php vendor/bin/phpstan analyse
+```
+
+#### PHP CS Fixer (Code Style)
+
+```bash
+# Provider - Check
+docker exec provider-test-php vendor/bin/php-cs-fixer fix --dry-run --diff
+
+# Provider - Fix
+docker exec provider-test-php vendor/bin/php-cs-fixer fix
+
+# Client - Check
+docker exec client-test-php vendor/bin/php-cs-fixer fix --dry-run --diff
+
+# Client - Fix
+docker exec client-test-php vendor/bin/php-cs-fixer fix
+```
+
 ## Stopping Services
 
 ```bash
