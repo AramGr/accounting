@@ -1,0 +1,16 @@
+# Docker volumes
+docker/mysql/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Symfony
+app/vendor/
+app/var/
+app/.env.local
+app/.env.*.local
