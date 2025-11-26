@@ -112,6 +112,24 @@ docker exec provider-test-php bin/console doctrine:fixtures:load --no-interactio
 
 This creates one account with balance = 0.00
 
+### Alternative: Import SQL Dumps
+
+If you prefer to import the database directly instead of running migrations and fixtures:
+
+#### Provider Database
+
+```bash
+docker exec -i provider-test-mysql mysql -uadmin -padminProviderPass provider < Provider/provider_database.sql
+```
+
+#### Client Database
+
+```bash
+docker exec -i client-test-mysql mysql -uadmin -padminClientPass client < Client/client_database.sql
+```
+
+> **Note:** The SQL dumps include the complete database schema and initial data. Use this method if you want to skip steps 5 and 6.
+
 ## Development
 
 ### Clear Cache
